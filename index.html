@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +8,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box}
+
 body{
 margin:0;
-padding:0;
 font-family:'Cairo',sans-serif;
 overflow:hidden;
 color:white;
 text-align:center;
-background:black;
+background:linear-gradient(-45deg,#000,#1a1a2e,#16213e,#000);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* نجوم */
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+animation:twinkle 3s infinite alternate;
+opacity:.8;
+}
+@keyframes twinkle{
+from{opacity:.3}
+to{opacity:1}
 }
 
 .page{
@@ -35,7 +59,7 @@ pointer-events:none;
 }
 
 h1{
-font-size:42px;
+font-size:clamp(28px,5vw,42px);
 background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
 background-size:200% auto;
 -webkit-background-clip:text;
@@ -44,7 +68,7 @@ animation:shine 3s linear infinite;
 }
 
 @keyframes shine{
-to{background-position:200% center;}
+to{background-position:200% center}
 }
 
 #message{
@@ -67,7 +91,7 @@ color:black;
 font-weight:bold;
 transition:.3s;
 }
-button:hover{transform:scale(1.1);}
+button:hover{transform:scale(1.1)}
 
 #slideshow{
 width:260px;
@@ -79,34 +103,69 @@ background-position:center;
 box-shadow:0 0 25px rgba(255,215,0,0.8);
 }
 
-#loveCounter{
-margin-top:20px;
-font-size:18px;
-background:rgba(0,0,0,0.65);
-padding:18px;
-border-radius:25px;
+/* العدّاد */
+.counter-boxes{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:15px;
 }
+
+.box{
+width:80px;
+height:80px;
+background:linear-gradient(145deg,#ffd700,#bfa23a);
+border-radius:15px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:black;
+font-weight:bold;
+box-shadow:0 0 15px rgba(255,215,0,.7);
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{box-shadow:0 0 10px rgba(255,215,0,.5)}
+to{box-shadow:0 0 25px rgba(255,215,0,1)}
+}
+
+.box span{font-size:22px}
+.box small{font-size:13px}
 
 .signature{
 margin-top:10px;
 font-size:16px;
-opacity:0.85;
+opacity:.85;
 }
 
+/* قلوب */
 .heart{
 position:absolute;
-animation: float 6s linear infinite;
+animation:float 6s linear infinite;
 font-size:25px;
 }
 
 @keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+/* نبض السؤال */
+#page3 h1{
+animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
 }
 </style>
 </head>
 
-<body dir="rtl">
+<body>
 
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
@@ -123,8 +182,13 @@ font-size:25px;
 <div id="slideshow"></div>
 
 <div id="loveCounter">
-منذ 4 مارس 2024 ❤️<br>
-<span id="counter"></span>
+منذ 4 مارس 2024 ❤️
+<div class="counter-boxes">
+<div class="box"><span id="days">0</span><small>يوم</small></div>
+<div class="box"><span id="hours">0</span><small>ساعة</small></div>
+<div class="box"><span id="minutes">0</span><small>دقيقة</small></div>
+<div class="box"><span id="seconds">0</span><small>ثانية</small></div>
+</div>
 <div class="signature">— أسامه سامي 🤍</div>
 </div>
 
@@ -136,42 +200,71 @@ font-size:25px;
 <h1>هويده… 💍</h1>
 <p style="font-size:22px;">تقبلين نكمل هالمشوار سوا؟ ❤️</p>
 <button onclick="accepted()">نعم 💕</button>
+<button onclick="goToSong()">اسمعي الأغنية 🎶</button>
+</div>
+
+<!-- صفحة الأغنية -->
+<div id="page4" class="page hidden">
+<h1>إنتِ جنة دعوة أمي 🤍</h1>
+<audio controls autoplay>
+<source src="PUT-YOUR-SONG-LINK.mp3" type="audio/mp3">
+</audio>
+<button onclick="location.reload()">رجوع ❤️</button>
 </div>
 
 <audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2b41d3b6f4.mp3" type="audio/mp3">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2b41d3b6f4.mp3">
 </audio>
 
 <script>
-const page1=document.getElementById("page1");
-const page2=document.getElementById("page2");
-const page3=document.getElementById("page3");
-const music=document.getElementById("bgMusic");
-music.volume=0.5;
+/* نجوم */
+for(let i=0;i<80;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+document.body.appendChild(s);
+}
 
+/* الصفحات */
+const page1=page2=page3=page4=null;
+const p1=document.getElementById("page1");
+const p2=document.getElementById("page2");
+const p3=document.getElementById("page3");
+const p4=document.getElementById("page4");
+
+const music=document.getElementById("bgMusic");
+music.volume=.5;
 let started=false;
 
 function goToSecond(){
-if(started) return;
+if(started)return;
 started=true;
-music.play();
-page1.classList.add("hidden");
-page2.classList.remove("hidden");
+music.play().catch(()=>{});
+p1.classList.add("hidden");
+p2.classList.remove("hidden");
+document.getElementById("message").innerHTML="";
+i=0;
 setTimeout(startTyping,500);
 }
 
 function goToThird(){
-page2.classList.add("hidden");
-page3.classList.remove("hidden");
+p2.classList.add("hidden");
+p3.classList.remove("hidden");
 }
 
+function goToSong(){
+p3.classList.add("hidden");
+p4.classList.remove("hidden");
+}
+
+/* كتابة */
 const text=`هلا هويده…
 من يوم 4 مارس 2024، والوقت صار يحسب لنا مو علينا.
 وجودك غير أشياء كثيرة بداخلي،
 وصار لكل يوم معنى،
 ولكل لحظة طعم،
 ولكل ثانية سبب… وأنتِ السبب ❤️`;
-
 let i=0;
 function startTyping(){
 if(i<text.length){
@@ -181,73 +274,56 @@ setTimeout(startTyping,70);
 }
 }
 
-/* صور قطط لطيفة 🐱 */
+/* صور */
 const images=[
 "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800",
 "https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800",
-"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800",
-"https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?w=800",
-"https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=800"
+"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800"
 ];
-
 let imgIndex=0;
 setInterval(()=>{
-document.getElementById("slideshow").style.backgroundImage=
-`url(${images[imgIndex]})`;
+document.getElementById("slideshow").style.backgroundImage=`url(${images[imgIndex]})`;
 imgIndex=(imgIndex+1)%images.length;
 },3500);
 
-/* العدّاد المتزايد */
-const loveStart=new Date(2024,2,4,0,0,0);
-
+/* عدّاد */
+const loveStart=new Date(2024,2,4);
 function updateCounter(){
 let now=new Date();
 let diff=now-loveStart;
-
 let d=Math.floor(diff/86400000);
 let h=Math.floor(diff%86400000/3600000);
 let m=Math.floor(diff%3600000/60000);
 let s=Math.floor(diff%60000/1000);
-
-document.getElementById("counter").innerHTML=
-`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
+days.innerText=d;
+hours.innerText=h;
+minutes.innerText=m;
+seconds.innerText=s;
 }
 setInterval(updateCounter,1000);
 
-/* بعد الضغط على نعم */
+/* قبول */
 function accepted(){
-page3.innerHTML=`
-<h1>أسعد قرار بحياتي ❤️👑</h1>
-<div id="loveCounter">
-منذ 4 مارس 2024 ❤️<br>
-<span id="counter"></span>
-<div class="signature">— أسامه سامي 🤍</div>
-</div>
-`;
-
-updateCounter();
-
-/* قلوب احتفالية */
-for(let i=0;i<50;i++){
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(20+Math.random()*40)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
+p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
+for(let i=0;i<40;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
 }
 }
 
 /* قلوب مستمرة */
 setInterval(()=>{
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},900);
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},1400);
 </script>
 
 </body>
