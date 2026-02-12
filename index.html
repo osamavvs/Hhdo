@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هويده ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+padding:0;
+font-family:'Cairo',sans-serif;
+overflow:hidden;
+color:white;
+text-align:center;
+background:black;
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+h1{
+font-size:42px;
+background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
+background-size:200% auto;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+to{background-position:200% center;}
+}
+
+#message{
+font-size:20px;
+line-height:2;
+max-width:800px;
+min-height:150px;
+padding:20px;
+}
+
+button{
+margin-top:20px;
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+background:linear-gradient(45deg,#d4af37,#ffd700);
+color:black;
+font-weight:bold;
+}
+
+#slideshow{
+width:250px;
+height:250px;
+margin:20px auto;
+border-radius:20px;
+background-size:cover;
+background-position:center;
+box-shadow:0 0 20px rgba(255,215,0,0.7);
+}
+
+#loveCounter{
+margin-top:15px;
+font-size:18px;
+background:rgba(0,0,0,0.5);
+padding:15px;
+border-radius:20px;
+}
+
+.heart{
+position:absolute;
+animation: float 6s linear infinite;
+font-size:25px;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="page1" class="page">
+<h1>أهلاً هويده ❤️</h1>
+<p>اضغطي أرسله لتكتشفي مفاجأتي ✨</p>
+<button onclick="goToSecond()">أرسله 💌</button>
+</div>
+
+<div id="page2" class="page hidden">
+<h1>هويده ❤️</h1>
+<div id="message"></div>
+<div id="slideshow"></div>
+<div id="loveCounter">
+منذ تعارفنا ❤️<br>
+<span id="counter"></span>
+</div>
+</div>
+
+<div id="page3" class="page hidden">
+<h1>هويده… 💍</h1>
+<p style="font-size:22px;">تقبلين نبدأ هالمشوار سوا؟ ❤️</p>
+<button onclick="accepted()">نعم 💕</button>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2b41d3b6f4.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+function goToSecond(){
+document.getElementById("bgMusic").play();
+page1.classList.add("hidden");
+page2.classList.remove("hidden");
+setTimeout(startTyping,500);
+}
+
+const text=`هلا هويده…
+من يوم تعارفنا وهذا الوقت قاعد يحسب أجمل أيام حياتي.
+وجودك غير كل شي بداخلي،
+وصرتِ سبب ابتسامتي بكل يوم ❤️`;
+
+let i=0;
+
+function startTyping(){
+if(i<text.length){
+document.getElementById("message").innerHTML+=text.charAt(i);
+i++;
+setTimeout(startTyping,70);
+}else{
+setTimeout(()=>{
+page2.classList.add("hidden");
+page3.classList.remove("hidden");
+},15000);
+}
+}
+
+const images=[
+"https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=800",
+"https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800"
+];
+
+let imgIndex=0;
+
+setInterval(()=>{
+document.getElementById("slideshow").style.backgroundImage=
+`url(${images[imgIndex]})`;
+imgIndex=(imgIndex+1)%images.length;
+},4000);
+
+const loveStart=new Date("2025-12-01T00:00:00");
+
+setInterval(()=>{
+let now=new Date();
+if(now<loveStart){
+document.getElementById("counter").innerHTML=
+"قريباً يبدأ عدّاد حبنا ❤️";
+return;
+}
+
+let diff=now-loveStart;
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff%86400000/3600000);
+let m=Math.floor(diff%3600000/60000);
+let s=Math.floor(diff%60000/1000);
+
+document.getElementById("counter").innerHTML=
+`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
+},1000);
+
+function accepted(){
+document.getElementById("page3").innerHTML=
+"<h1>أسعد قرار بحياتي ❤️</h1>";
+
+for(let i=0;i<40;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*40)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+}
+}
+
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},800);
+
+</script>
+
+</body>
+</html>
