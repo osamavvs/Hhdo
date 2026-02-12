@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>هويده ❤️</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -64,24 +65,32 @@ cursor:pointer;
 background:linear-gradient(45deg,#d4af37,#ffd700);
 color:black;
 font-weight:bold;
+transition:.3s;
 }
+button:hover{transform:scale(1.1);}
 
 #slideshow{
-width:250px;
-height:250px;
+width:260px;
+height:260px;
 margin:20px auto;
-border-radius:20px;
+border-radius:25px;
 background-size:cover;
 background-position:center;
-box-shadow:0 0 20px rgba(255,215,0,0.7);
+box-shadow:0 0 25px rgba(255,215,0,0.8);
 }
 
 #loveCounter{
 margin-top:15px;
 font-size:18px;
-background:rgba(0,0,0,0.5);
-padding:15px;
-border-radius:20px;
+background:rgba(0,0,0,0.6);
+padding:18px;
+border-radius:25px;
+}
+
+.signature{
+margin-top:10px;
+font-size:16px;
+opacity:0.8;
 }
 
 .heart{
@@ -97,27 +106,35 @@ font-size:25px;
 </style>
 </head>
 
-<body>
+<body dir="rtl">
 
+<!-- الصفحة الأولى -->
 <div id="page1" class="page">
 <h1>أهلاً هويده ❤️</h1>
-<p>اضغطي أرسله لتكتشفي مفاجأتي ✨</p>
-<button onclick="goToSecond()">أرسله 💌</button>
+<p>اضغطي الزر وابدأ الحلم ✨</p>
+<button onclick="goToSecond()">ابدئي المفاجأة 💌</button>
 </div>
 
+<!-- الصفحة الثانية -->
 <div id="page2" class="page hidden">
 <h1>هويده ❤️</h1>
 <div id="message"></div>
+
 <div id="slideshow"></div>
+
 <div id="loveCounter">
-منذ تعارفنا ❤️<br>
+منذ 4 مارس 2024 ❤️<br>
 <span id="counter"></span>
-</div>
+<div class="signature">— أسامه سامي 🤍</div>
 </div>
 
+<button onclick="goToThird()">في شي أخير… ✨</button>
+</div>
+
+<!-- الصفحة الثالثة -->
 <div id="page3" class="page hidden">
 <h1>هويده… 💍</h1>
-<p style="font-size:22px;">تقبلين نبدأ هالمشوار سوا؟ ❤️</p>
+<p style="font-size:22px;">تقبلين نكمل هالمشوار سوا؟ ❤️</p>
 <button onclick="accepted()">نعم 💕</button>
 </div>
 
@@ -126,24 +143,102 @@ font-size:25px;
 </audio>
 
 <script>
+const page1=document.getElementById("page1");
+const page2=document.getElementById("page2");
+const page3=document.getElementById("page3");
+const music=document.getElementById("bgMusic");
+music.volume=0.5;
+
+let started=false;
 
 function goToSecond(){
-document.getElementById("bgMusic").play();
+if(started) return;
+started=true;
+music.play();
 page1.classList.add("hidden");
 page2.classList.remove("hidden");
 setTimeout(startTyping,500);
 }
 
+function goToThird(){
+page2.classList.add("hidden");
+page3.classList.remove("hidden");
+}
+
 const text=`هلا هويده…
-من يوم تعارفنا وهذا الوقت قاعد يحسب أجمل أيام حياتي.
-وجودك غير كل شي بداخلي،
-وصرتِ سبب ابتسامتي بكل يوم ❤️`;
+من يوم 4 مارس 2024، والوقت صار يحسب لنا مو علينا.
+وجودك غير أشياء كثيرة بداخلي،
+وصار لكل يوم معنى،
+ولكل لحظة طعم،
+ولكل ثانية سبب… وأنتِ السبب ❤️`;
 
 let i=0;
-
 function startTyping(){
 if(i<text.length){
 document.getElementById("message").innerHTML+=text.charAt(i);
+i++;
+setTimeout(startTyping,70);
+}
+}
+
+/* صور دمى جميلة */
+const images=[
+"https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=800",
+"https://images.unsplash.com/photo-1590080877777-8e1e7d5b0e51?w=800",
+"https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=800",
+"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800",
+"https://images.unsplash.com/photo-1616627987303-7a4f1eaf3a7b?w=800"
+];
+
+let imgIndex=0;
+setInterval(()=>{
+document.getElementById("slideshow").style.backgroundImage=
+`url(${images[imgIndex]})`;
+imgIndex=(imgIndex+1)%images.length;
+},3500);
+
+/* العدّاد المتزايد */
+const loveStart=new Date(2024,2,4,0,0,0);
+
+setInterval(()=>{
+let now=new Date();
+let diff=now-loveStart;
+
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff%86400000/3600000);
+let m=Math.floor(diff%3600000/60000);
+let s=Math.floor(diff%60000/1000);
+
+document.getElementById("counter").innerHTML=
+`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
+},1000);
+
+function accepted(){
+page3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
+for(let i=0;i<50;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*40)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+}
+}
+
+/* قلوب مستمرة */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},900);
+</script>
+
+</body>
+</html>document.getElementById("message").innerHTML+=text.charAt(i);
 i++;
 setTimeout(startTyping,70);
 }else{
