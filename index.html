@@ -1,294 +1,297 @@
-<!DOCTYPE html>  
-<html lang="ar" dir="rtl">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>هويده ❤️</title>  
-  
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">  
-  
-<style>  
-*{box-sizing:border-box}  
-  
-body{  
-margin:0;  
-font-family:'Cairo',sans-serif;  
-overflow:hidden;  
-color:white;  
-text-align:center;  
-  
-background:  
-linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),  
-url("https://images.unsplash.com/photo-1519183071298-a2962be90b2f") center/cover no-repeat fixed;  
-  
-animation:bgZoom 30s ease-in-out infinite;  
-}  
-  
-@keyframes bgZoom{  
-0%{background-size:100%}  
-50%{background-size:112%}  
-100%{background-size:100%}  
-}  
-  
-.page{  
-position:absolute;  
-width:100%;  
-height:100%;  
-display:flex;  
-justify-content:center;  
-align-items:center;  
-flex-direction:column;  
-transition:1s;  
-}  
-  
-.hidden{  
-opacity:0;  
-pointer-events:none;  
-}  
-  
-h1{  
-font-size:clamp(28px,5vw,42px);  
-background:linear-gradient(90deg,#ffd700,#fff,#ffd700);  
-background-size:200% auto;  
--webkit-background-clip:text;  
--webkit-text-fill-color:transparent;  
-animation:shine 3s linear infinite;  
-}  
-  
-@keyframes shine{  
-to{background-position:200% center}  
-}  
-  
-/* نص الرسالة أصغر */  
-#message{  
-font-size:16px; /* تم تصغير النص */  
-line-height:1.8;  
-max-width:800px;  
-min-height:160px;  
-padding:20px;  
-}  
-  
-button{  
-margin-top:20px;  
-padding:15px 35px;  
-font-size:18px;  
-border:none;  
-border-radius:50px;  
-cursor:pointer;  
-background:linear-gradient(45deg,#d4af37,#ffd700);  
-color:black;  
-font-weight:bold;  
-transition:.3s;  
-}  
-button:hover{transform:scale(1.1)}  
-  
-#slideshow{  
-width:260px;  
-height:260px;  
-margin:20px auto;  
-border-radius:25px;  
-background-size:cover;  
-background-position:center;  
-box-shadow:0 0 25px rgba(255,215,0,0.8);  
-}  
-  
-/* العدّاد */  
-.counter-boxes{  
-display:flex;  
-gap:12px;  
-flex-wrap:wrap;  
-justify-content:center;  
-margin-top:15px;  
-}  
-  
-/* مربعات ذهبية للعداد */  
-.box{  
-width:80px;  
-height:80px;  
-background:linear-gradient(145deg,#ffd700,#bfa23a); /* ذهبية */  
-border-radius:15px;  
-display:flex;  
-flex-direction:column;  
-justify-content:center;  
-align-items:center;  
-color:black;  
-font-weight:bold;  
-box-shadow:0 0 15px rgba(255,215,0,.7);  
-animation:glow 2s infinite alternate;  
-}  
-  
-@keyframes glow{  
-from{box-shadow:0 0 10px rgba(255,215,0,.5)}  
-to{box-shadow:0 0 25px rgba(255,215,0,1)}  
-}  
-  
-.box span{font-size:22px}  
-.box small{font-size:13px}  
-  
-.signature{  
-margin-top:12px;  
-font-size:16px;  
-opacity:.9;  
-}  
-  
-.signature small{  
-display:block;  
-font-size:14px;  
-opacity:.8;  
-margin-top:4px;  
-}  
-  
-/* قلوب */  
-.heart{  
-position:absolute;  
-animation:float 6s linear infinite;  
-font-size:25px;  
-}  
-  
-@keyframes float{  
-0%{transform:translateY(100vh)}  
-100%{transform:translateY(-10vh)}  
-}  
-  
-/* نبض السؤال */  
-#page3 h1{  
-animation:pulse 1.5s infinite;  
-}  
-@keyframes pulse{  
-0%{transform:scale(1)}  
-50%{transform:scale(1.05)}  
-100%{transform:scale(1)}  
-}  
-</style>  
-</head>  
-  
-<body>  
-  
-<!-- الصفحة الأولى -->  
-<div id="page1" class="page">  
-<h1>أهلاً هويده ❤️</h1>  
-<p>اضغطي الزر وابدأ الحكاية ✨</p>  
-<button onclick="goToSecond()">ابدئي 💌</button>  
-</div>  
-  
-<!-- الصفحة الثانية -->  
-<div id="page2" class="page hidden">  
-<h1>هويده ❤️</h1>  
-<div id="message"></div>  
-  
-<div id="slideshow"></div>  
-  
-<div id="loveCounter">  
-منذ 4 مارس 2024 ❤️  
-<div class="counter-boxes">  
-<div class="box"><span id="days">0</span><small>يوم</small></div>  
-<div class="box"><span id="hours">0</span><small>ساعة</small></div>  
-<div class="box"><span id="minutes">0</span><small>دقيقة</small></div>  
-<div class="box"><span id="seconds">0</span><small>ثانية</small></div>  
-</div>  
-  
-<div class="signature">  
-— أسامه سامي 🤍  
-<small>انتظرج لآخر يوم بعمري</small>  
-</div>  
-</div>  
-  
-<button onclick="goToThird()">في شي أخير… ✨</button>  
-</div>  
-  
-<!-- الصفحة الثالثة -->  
-<div id="page3" class="page hidden">  
-<h1>ممكن نلتقي؟</h1>  
-<button onclick="accepted()">موافق</button>  
-</div>  
-  
-<script>  
-const p1=document.getElementById("page1");  
-const p2=document.getElementById("page2");  
-const p3=document.getElementById("page3");  
-  
-let started=false;  
-  
-function goToSecond(){  
-if(started)return;  
-started=true;  
-p1.classList.add("hidden");  
-p2.classList.remove("hidden");  
-document.getElementById("message").innerHTML="";  
-i=0;  
-setTimeout(startTyping,500);  
-}  
-  
-function goToThird(){  
-p2.classList.add("hidden");  
-p3.classList.remove("hidden");  
-}  
-  
-/* نص الرسالة */  
-const text=`هلا هويده…  
-يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.  
-من أول ما عرفتك صار عندك أثر مختلف بحياتي،  
-ضحكتك، طريقتك، وحتى وجودك يخلي يومي أحلى.  
-ما أريد أطوّل بالكلام…  
-الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج  
-مثل ما إلك مكان كبير بقلبي.`;  
-  
-let i=0;  
-function startTyping(){  
-if(i<text.length){  
-document.getElementById("message").innerHTML+=text.charAt(i);  
-i++;  
-setTimeout(startTyping,65);  
-}  
-}  
-  
-/* صور */  
-const images=[  
-"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800",  
-"https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800"  
-];  
-let imgIndex=0;  
-setInterval(()=>{  
-document.getElementById("slideshow").style.backgroundImage=  
-`url(${images[imgIndex]})`;  
-imgIndex=(imgIndex+1)%images.length;  
-},3500);  
-  
-/* العدّاد */  
-const loveStart=new Date(2024,2,4);  
-function updateCounter(){  
-let now=new Date();  
-let diff=now-loveStart;  
-days.innerText=Math.floor(diff/86400000);  
-hours.innerText=Math.floor(diff%86400000/3600000);  
-minutes.innerText=Math.floor(diff%3600000/60000);  
-seconds.innerText=Math.floor(diff%60000/1000);  
-}  
-setInterval(updateCounter,1000);  
-  
-/* قبول */  
-function accepted(){  
-p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";  
-for(let i=0;i<40;i++){  
-let h=document.createElement("div");  
-h.className="heart";  
-h.innerHTML="💖";  
-h.style.left=Math.random()*100+"vw";  
-document.body.appendChild(h);  
-setTimeout(()=>h.remove(),6000);  
-}  
-}  
-  
-/* قلوب مستمرة */  
-setInterval(()=>{  
-let h=document.createElement("div");  
-h.className="heart";  
-h.innerHTML="❤️";  
-h.style.left=Math.random()*100+"vw";  
-document.body.appendChild(h);  
-setTimeout(()=>h.remove(),6000);  
-},1400);  
-</script>  
-  
-</body>  
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هويده ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:'Cairo',sans-serif;
+overflow:hidden;
+color:white;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)), url("https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800") center/cover no-repeat fixed;
+animation:bgZoom 30s ease-in-out infinite;
+}
+
+@keyframes bgZoom{
+0%{background-size:100%}
+50%{background-size:112%}
+100%{background-size:100%}
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+h1{
+font-size:clamp(28px,5vw,42px);
+background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
+background-size:200% auto;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+to{background-position:200% center}
+}
+
+#message{
+font-size:16px;
+line-height:1.8;
+max-width:800px;
+min-height:160px;
+padding:20px;
+}
+
+button{
+margin-top:20px;
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+background:linear-gradient(45deg,#d4af37,#ffd700);
+color:black;
+font-weight:bold;
+transition:.3s;
+}
+button:hover{transform:scale(1.1)}
+
+#singleImage{
+width:300px;
+height:300px;
+margin:20px auto;
+border-radius:20px;
+background-size:cover;
+background-position:center;
+box-shadow:0 0 25px rgba(255,215,0,0.8);
+}
+
+/* العدّاد */
+.counter-boxes{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:15px;
+}
+
+.box{
+width:80px;
+height:80px;
+background:linear-gradient(145deg,#ffd700,#bfa23a);
+border-radius:15px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:black;
+font-weight:bold;
+box-shadow:0 0 15px rgba(255,215,0,.7);
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{box-shadow:0 0 10px rgba(255,215,0,.5)}
+to{box-shadow:0 0 25px rgba(255,215,0,1)}
+}
+
+.box span{font-size:22px}
+.box small{font-size:13px}
+
+.signature{
+margin-top:12px;
+font-size:16px;
+opacity:.9;
+}
+
+.signature small{
+display:block;
+font-size:14px;
+opacity:.8;
+margin-top:4px;
+}
+
+/* قلوب */
+.heart{
+position:absolute;
+animation:float 6s linear infinite;
+font-size:25px;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+/* نبض السؤال */
+#page3 h1{
+animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
+
+.insta-box{
+margin-top:15px;
+background:rgba(255,255,255,0.1);
+padding:10px 20px;
+border-radius:20px;
+display:flex;
+gap:10px;
+align-items:center;
+justify-content:center;
+}
+.insta-box a{
+color:#ffd700;
+text-decoration:none;
+font-weight:bold;
+}
+.insta-box i{font-size:22px;color:#E1306C}
+</style>
+</head>
+<body>
+
+<!-- الصفحة الأولى -->
+<div id="page1" class="page">
+<h1>أهلاً هويده ❤️</h1>
+<p>اضغطي الزر وابدأ الحكاية ✨</p>
+<button onclick="goToSecond()">ابدئي 💌</button>
+</div>
+
+<!-- الصفحة الثانية -->
+<div id="page2" class="page hidden">
+<h1>هويده ❤️</h1>
+<div id="message"></div>
+
+<div id="singleImage" style="background-image:url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800');"></div>
+
+<div id="loveCounter">
+منذ 4 مارس 2024 ❤️
+<div class="counter-boxes">
+<div class="box"><span id="days">0</span><small>يوم</small></div>
+<div class="box"><span id="hours">0</span><small>ساعة</small></div>
+<div class="box"><span id="minutes">0</span><small>دقيقة</small></div>
+<div class="box"><span id="seconds">0</span><small>ثانية</small></div>
+</div>
+<div class="signature">
+— أسامه سامي 🤍
+<small>انتظرج لآخر يوم بعمري</small>
+</div>
+</div>
+<button onclick="goToThird()">في شي أخير… ✨</button>
+</div>
+
+<!-- الصفحة الثالثة -->
+<div id="page3" class="page hidden">
+<h1>ممكن نلتقي؟</h1>
+<button onclick="accepted()">موافق</button>
+</div>
+
+<script>
+const p1=document.getElementById("page1");
+const p2=document.getElementById("page2");
+const p3=document.getElementById("page3");
+
+let started=false;
+
+function goToSecond(){
+if(started) return;
+started=true;
+p1.classList.add("hidden");
+p2.classList.remove("hidden");
+document.getElementById("message").innerHTML="";
+i=0;
+setTimeout(startTyping,500);
+}
+
+function goToThird(){
+p2.classList.add("hidden");
+p3.classList.remove("hidden");
+}
+
+/* نص الرسالة */
+const text=`هلا هويده…
+يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
+من أول ما عرفتك صار عندك أثر مختلف بحياتي،
+ضحكتك، طريقتك، وحتى وجودك يخلي يومي أحلى.
+ما أريد أطوّل بالكلام…
+الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج
+مثل ما إلك مكان كبير بقلبي.`;
+
+let i=0;
+function startTyping(){
+if(i<text.length){
+document.getElementById("message").innerHTML+=text.charAt(i);
+i++;
+setTimeout(startTyping,65);
+}
+}
+
+/* العدّاد */
+const loveStart=new Date(2024,2,4);
+function updateCounter(){
+let now=new Date();
+let diff=now-loveStart;
+days.innerText=Math.floor(diff/86400000);
+hours.innerText=Math.floor(diff%86400000/3600000);
+minutes.innerText=Math.floor(diff%3600000/60000);
+seconds.innerText(Math.floor(diff%60000/1000));
+}
+setInterval(updateCounter,1000);
+
+/* بعد الضغط على موافق تظهر رابط الإنستغرام */
+function accepted(){
+p3.innerHTML="<h1>أسعد قرار! ❤️</h1>";
+
+for(let i=0;i<40;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+}
+
+// إضافة زر الإنستغرام بعد الموافقة
+let instaDiv=document.createElement("div");
+instaDiv.className="insta-box";
+instaDiv.innerHTML=`<i class="fa-brands fa-instagram"></i>
+<a href="https://www.instagram.com/3ACZ" target="_blank">@3ACZ</a>`;
+p3.appendChild(instaDiv);
+}
+
+/* قلوب مستمرة */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},1400);
+</script>
+
+</body>
 </html>
