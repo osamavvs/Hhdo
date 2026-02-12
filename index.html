@@ -13,12 +13,13 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-overflow:hidden;
+background:black;
 color:white;
 text-align:center;
-background:black;
+overflow:hidden;
 }
 
+/* الصفحات */
 .page{
 position:absolute;
 width:100%;
@@ -37,40 +38,33 @@ pointer-events:none;
 
 /* العناوين */
 h1{
-font-size:clamp(28px,5vw,42px);
+font-size:clamp(30px,5vw,44px);
 background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
 background-size:200% auto;
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 animation:shine 3s linear infinite;
 }
-@keyframes shine{to{background-position:200% center}}
 
-/* فيديو الأرض */
-#earthVideo{
-width:280px;
-height:280px;
-border-radius:50%;
-object-fit:cover;
-box-shadow:0 0 40px rgba(0,150,255,.6);
-margin:18px 0;
+@keyframes shine{
+to{background-position:200% center}
 }
 
-/* الرسالة */
+/* النص */
 #message{
 font-size:20px;
 line-height:2;
-max-width:820px;
-padding:22px;
-margin-bottom:15px;
-background:rgba(0,0,0,.55);
-border-radius:22px;
+max-width:850px;
+padding:25px;
+margin-top:20px;
+background:rgba(255,255,255,0.05);
+border-radius:20px;
 }
 
 /* الأزرار */
 button{
-margin-top:18px;
-padding:15px 35px;
+margin-top:25px;
+padding:15px 40px;
 font-size:18px;
 border:none;
 border-radius:50px;
@@ -82,47 +76,14 @@ transition:.3s;
 }
 button:hover{transform:scale(1.1)}
 
-/* العداد */
-.counter-boxes{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:15px;
+/* نبض */
+#page3 h1{
+animation:pulse 1.5s infinite;
 }
-
-.box{
-width:80px;
-height:80px;
-background:linear-gradient(145deg,#ffd700,#bfa23a);
-border-radius:15px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-color:black;
-font-weight:bold;
-box-shadow:0 0 15px rgba(255,215,0,.7);
-animation:glow 2s infinite alternate;
-}
-@keyframes glow{
-from{box-shadow:0 0 10px rgba(255,215,0,.5)}
-to{box-shadow:0 0 25px rgba(255,215,0,1)}
-}
-.box span{font-size:22px}
-.box small{font-size:13px}
-
-/* التوقيع */
-.signature{
-margin-top:12px;
-font-size:16px;
-opacity:.9;
-}
-.signature small{
-display:block;
-font-size:14px;
-opacity:.8;
-margin-top:4px;
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.06)}
+100%{transform:scale(1)}
 }
 
 /* قلوب */
@@ -135,16 +96,6 @@ font-size:24px;
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
 }
-
-/* نبض السؤال */
-#page3 h1{
-animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.05)}
-100%{transform:scale(1)}
-}
 </style>
 </head>
 
@@ -153,36 +104,15 @@ animation:pulse 1.5s infinite;
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
 <h1>أهلاً هويده ❤️</h1>
-<p>اضغطي الزر وابدأ الحكاية ✨</p>
-<button onclick="goToSecond()">ابدئي 💌</button>
+<p>في شي حاب أقوله من قلبي…</p>
+<button onclick="goToSecond()">ابدئي ✨</button>
 </div>
 
 <!-- الصفحة الثانية -->
 <div id="page2" class="page hidden">
 <h1>هويده ❤️</h1>
-
 <div id="message"></div>
-
-<video id="earthVideo" autoplay muted loop playsinline>
-<source src="earth-night.mp4" type="video/mp4">
-</video>
-
-<div>
-منذ 4 مارس 2024 ❤️
-<div class="counter-boxes">
-<div class="box"><span id="days">0</span><small>يوم</small></div>
-<div class="box"><span id="hours">0</span><small>ساعة</small></div>
-<div class="box"><span id="minutes">0</span><small>دقيقة</small></div>
-<div class="box"><span id="seconds">0</span><small>ثانية</small></div>
-</div>
-
-<div class="signature">
-— أسامه سامي 🤍
-<small>انتظرج لآخر يوم بعمري</small>
-</div>
-</div>
-
-<button onclick="goToThird()">في شي أخير… ✨</button>
+<button onclick="goToThird()">تابعي 💌</button>
 </div>
 
 <!-- الصفحة الثالثة -->
@@ -195,7 +125,7 @@ animation:pulse 1.5s infinite;
 <script>
 const p1=page1,p2=page2,p3=page3;
 
-/* الانتقال */
+/* انتقال الصفحات */
 function goToSecond(){
 p1.classList.add("hidden");
 p2.classList.remove("hidden");
@@ -208,7 +138,7 @@ p2.classList.add("hidden");
 p3.classList.remove("hidden");
 }
 
-/* النص */
+/* نص الرسالة */
 const text=`هلا هويده…
 يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
 من أول ما عرفتك صار عندك أثر مختلف بحياتي،
@@ -216,28 +146,19 @@ const text=`هلا هويده…
 ما أريد أطوّل بالكلام…
 الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج
 مثل ما إلك مكان كبير بقلبي.`;
+
 let i=0;
 function startTyping(){
 if(i<text.length){
 message.innerHTML+=text.charAt(i++);
-setTimeout(startTyping,65);
+setTimeout(startTyping,70);
 }
 }
 
-/* العداد */
-const start=new Date(2024,2,4);
-setInterval(()=>{
-let d=new Date()-start;
-days.innerText=Math.floor(d/86400000);
-hours.innerText=Math.floor(d%86400000/3600000);
-minutes.innerText=Math.floor(d%3600000/60000);
-seconds.innerText=Math.floor(d%60000/1000);
-},1000);
-
-/* قبول */
+/* الموافقة */
 function accepted(){
 p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
-for(let i=0;i<35;i++){
+for(let i=0;i<30;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
@@ -246,16 +167,6 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 }
 }
-
-/* قلوب */
-setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-},1400);
 </script>
 
 </body>
