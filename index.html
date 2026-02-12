@@ -16,30 +16,18 @@ font-family:'Cairo',sans-serif;
 overflow:hidden;
 color:white;
 text-align:center;
-background:linear-gradient(-45deg,#000,#1a1a2e,#16213e,#000);
-background-size:400% 400%;
-animation:bgMove 12s ease infinite;
+
+background:
+linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url("earth-night.jpg") center/cover no-repeat fixed;
+
+animation:bgZoom 30s ease-in-out infinite;
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-
-/* نجوم */
-.star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-animation:twinkle 3s infinite alternate;
-opacity:.8;
-}
-@keyframes twinkle{
-from{opacity:.3}
-to{opacity:1}
+@keyframes bgZoom{
+0%{background-size:100%}
+50%{background-size:112%}
+100%{background-size:100%}
 }
 
 .page{
@@ -75,7 +63,7 @@ to{background-position:200% center}
 font-size:20px;
 line-height:2;
 max-width:800px;
-min-height:150px;
+min-height:160px;
 padding:20px;
 }
 
@@ -136,9 +124,16 @@ to{box-shadow:0 0 25px rgba(255,215,0,1)}
 .box small{font-size:13px}
 
 .signature{
-margin-top:10px;
+margin-top:12px;
 font-size:16px;
-opacity:.85;
+opacity:.9;
+}
+
+.signature small{
+display:block;
+font-size:14px;
+opacity:.8;
+margin-top:4px;
 }
 
 /* قلوب */
@@ -170,8 +165,8 @@ animation:pulse 1.5s infinite;
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
 <h1>أهلاً هويده ❤️</h1>
-<p>اضغطي الزر وابدأ الحلم ✨</p>
-<button onclick="goToSecond()">ابدئي المفاجأة 💌</button>
+<p>اضغطي الزر وابدأ الحكاية ✨</p>
+<button onclick="goToSecond()">ابدئي 💌</button>
 </div>
 
 <!-- الصفحة الثانية -->
@@ -189,7 +184,11 @@ animation:pulse 1.5s infinite;
 <div class="box"><span id="minutes">0</span><small>دقيقة</small></div>
 <div class="box"><span id="seconds">0</span><small>ثانية</small></div>
 </div>
-<div class="signature">— أسامه سامي 🤍</div>
+
+<div class="signature">
+— أسامه سامي 🤍
+<small>انتظرج لآخر يوم بعمري</small>
+</div>
 </div>
 
 <button onclick="goToThird()">في شي أخير… ✨</button>
@@ -200,47 +199,18 @@ animation:pulse 1.5s infinite;
 <h1>هويده… 💍</h1>
 <p style="font-size:22px;">تقبلين نكمل هالمشوار سوا؟ ❤️</p>
 <button onclick="accepted()">نعم 💕</button>
-<button onclick="goToSong()">اسمعي الأغنية 🎶</button>
 </div>
-
-<!-- صفحة الأغنية -->
-<div id="page4" class="page hidden">
-<h1>إنتِ جنة دعوة أمي 🤍</h1>
-<audio controls autoplay>
-<source src="PUT-YOUR-SONG-LINK.mp3" type="audio/mp3">
-</audio>
-<button onclick="location.reload()">رجوع ❤️</button>
-</div>
-
-<audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2b41d3b6f4.mp3">
-</audio>
 
 <script>
-/* نجوم */
-for(let i=0;i<80;i++){
-let s=document.createElement("div");
-s.className="star";
-s.style.left=Math.random()*100+"vw";
-s.style.top=Math.random()*100+"vh";
-document.body.appendChild(s);
-}
-
-/* الصفحات */
-const page1=page2=page3=page4=null;
 const p1=document.getElementById("page1");
 const p2=document.getElementById("page2");
 const p3=document.getElementById("page3");
-const p4=document.getElementById("page4");
 
-const music=document.getElementById("bgMusic");
-music.volume=.5;
 let started=false;
 
 function goToSecond(){
 if(started)return;
 started=true;
-music.play().catch(()=>{});
 p1.classList.add("hidden");
 p2.classList.remove("hidden");
 document.getElementById("message").innerHTML="";
@@ -253,52 +223,45 @@ p2.classList.add("hidden");
 p3.classList.remove("hidden");
 }
 
-function goToSong(){
-p3.classList.add("hidden");
-p4.classList.remove("hidden");
-}
-
-/* كتابة */
+/* نص الرسالة الجديد */
 const text=`هلا هويده…
-من يوم 4 مارس 2024، والوقت صار يحسب لنا مو علينا.
-وجودك غير أشياء كثيرة بداخلي،
-وصار لكل يوم معنى،
-ولكل لحظة طعم،
-ولكل ثانية سبب… وأنتِ السبب ❤️`;
+يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
+من أول ما عرفتك صار عندك أثر مختلف بحياتي،
+ضحكتك، طريقتك، وحتى وجودك يخلي يومي أحلى.
+ما أريد أطوّل بالكلام…
+الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج
+مثل ما إلك مكان كبير بقلبي.`;
+
 let i=0;
 function startTyping(){
 if(i<text.length){
 document.getElementById("message").innerHTML+=text.charAt(i);
 i++;
-setTimeout(startTyping,70);
+setTimeout(startTyping,65);
 }
 }
 
 /* صور */
 const images=[
 "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800",
-"https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800",
-"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800"
+"https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800"
 ];
 let imgIndex=0;
 setInterval(()=>{
-document.getElementById("slideshow").style.backgroundImage=`url(${images[imgIndex]})`;
+document.getElementById("slideshow").style.backgroundImage=
+`url(${images[imgIndex]})`;
 imgIndex=(imgIndex+1)%images.length;
 },3500);
 
-/* عدّاد */
+/* العدّاد */
 const loveStart=new Date(2024,2,4);
 function updateCounter(){
 let now=new Date();
 let diff=now-loveStart;
-let d=Math.floor(diff/86400000);
-let h=Math.floor(diff%86400000/3600000);
-let m=Math.floor(diff%3600000/60000);
-let s=Math.floor(diff%60000/1000);
-days.innerText=d;
-hours.innerText=h;
-minutes.innerText=m;
-seconds.innerText=s;
+days.innerText=Math.floor(diff/86400000);
+hours.innerText=Math.floor(diff%86400000/3600000);
+minutes.innerText=Math.floor(diff%3600000/60000);
+seconds.innerText=Math.floor(diff%60000/1000);
 }
 setInterval(updateCounter,1000);
 
