@@ -80,9 +80,9 @@ box-shadow:0 0 25px rgba(255,215,0,0.8);
 }
 
 #loveCounter{
-margin-top:15px;
+margin-top:20px;
 font-size:18px;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.65);
 padding:18px;
 border-radius:25px;
 }
@@ -90,7 +90,7 @@ border-radius:25px;
 .signature{
 margin-top:10px;
 font-size:16px;
-opacity:0.8;
+opacity:0.85;
 }
 
 .heart{
@@ -181,13 +181,13 @@ setTimeout(startTyping,70);
 }
 }
 
-/* صور دمى جميلة */
+/* صور قطط لطيفة 🐱 */
 const images=[
-"https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=800",
-"https://images.unsplash.com/photo-1590080877777-8e1e7d5b0e51?w=800",
-"https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=800",
-"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800",
-"https://images.unsplash.com/photo-1616627987303-7a4f1eaf3a7b?w=800"
+"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800",
+"https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800",
+"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800",
+"https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?w=800",
+"https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=800"
 ];
 
 let imgIndex=0;
@@ -200,7 +200,7 @@ imgIndex=(imgIndex+1)%images.length;
 /* العدّاد المتزايد */
 const loveStart=new Date(2024,2,4,0,0,0);
 
-setInterval(()=>{
+function updateCounter(){
 let now=new Date();
 let diff=now-loveStart;
 
@@ -211,10 +211,23 @@ let s=Math.floor(diff%60000/1000);
 
 document.getElementById("counter").innerHTML=
 `${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
-},1000);
+}
+setInterval(updateCounter,1000);
 
+/* بعد الضغط على نعم */
 function accepted(){
-page3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
+page3.innerHTML=`
+<h1>أسعد قرار بحياتي ❤️👑</h1>
+<div id="loveCounter">
+منذ 4 مارس 2024 ❤️<br>
+<span id="counter"></span>
+<div class="signature">— أسامه سامي 🤍</div>
+</div>
+`;
+
+updateCounter();
+
+/* قلوب احتفالية */
 for(let i=0;i<50;i++){
 let heart=document.createElement("div");
 heart.className="heart";
@@ -235,77 +248,6 @@ heart.style.left=Math.random()*100+"vw";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),6000);
 },900);
-</script>
-
-</body>
-</html>document.getElementById("message").innerHTML+=text.charAt(i);
-i++;
-setTimeout(startTyping,70);
-}else{
-setTimeout(()=>{
-page2.classList.add("hidden");
-page3.classList.remove("hidden");
-},15000);
-}
-}
-
-const images=[
-"https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=800",
-"https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800"
-];
-
-let imgIndex=0;
-
-setInterval(()=>{
-document.getElementById("slideshow").style.backgroundImage=
-`url(${images[imgIndex]})`;
-imgIndex=(imgIndex+1)%images.length;
-},4000);
-
-const loveStart=new Date("2025-12-01T00:00:00");
-
-setInterval(()=>{
-let now=new Date();
-if(now<loveStart){
-document.getElementById("counter").innerHTML=
-"قريباً يبدأ عدّاد حبنا ❤️";
-return;
-}
-
-let diff=now-loveStart;
-let d=Math.floor(diff/86400000);
-let h=Math.floor(diff%86400000/3600000);
-let m=Math.floor(diff%3600000/60000);
-let s=Math.floor(diff%60000/1000);
-
-document.getElementById("counter").innerHTML=
-`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
-},1000);
-
-function accepted(){
-document.getElementById("page3").innerHTML=
-"<h1>أسعد قرار بحياتي ❤️</h1>";
-
-for(let i=0;i<40;i++){
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(20+Math.random()*40)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-}
-}
-
-setInterval(()=>{
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*100+"vw";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},800);
-
 </script>
 
 </body>
