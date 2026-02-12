@@ -16,11 +16,9 @@ font-family:'Cairo',sans-serif;
 overflow:hidden;
 color:white;
 text-align:center;
-
 background:
-linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
 url("earth-night.jpg") center/cover no-repeat fixed;
-
 animation:bgZoom 30s ease-in-out infinite;
 }
 
@@ -46,6 +44,7 @@ opacity:0;
 pointer-events:none;
 }
 
+/* العناوين */
 h1{
 font-size:clamp(28px,5vw,42px);
 background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
@@ -54,21 +53,37 @@ background-size:200% auto;
 -webkit-text-fill-color:transparent;
 animation:shine 3s linear infinite;
 }
+@keyframes shine{to{background-position:200% center}}
 
-@keyframes shine{
-to{background-position:200% center}
-}
-
+/* الرسالة */
 #message{
 font-size:20px;
 line-height:2;
 max-width:800px;
-min-height:160px;
-padding:20px;
+padding:22px;
+margin-bottom:15px;
+background:rgba(0,0,0,.45);
+border-radius:22px;
+position:relative;
+z-index:5;
 }
 
+/* الصور */
+#slideshow{
+width:260px;
+height:260px;
+border-radius:25px;
+background-size:cover;
+background-position:center;
+box-shadow:0 0 25px rgba(255,215,0,.8);
+margin:15px 0;
+filter:brightness(.9);
+z-index:1;
+}
+
+/* الأزرار */
 button{
-margin-top:20px;
+margin-top:18px;
 padding:15px 35px;
 font-size:18px;
 border:none;
@@ -81,17 +96,7 @@ transition:.3s;
 }
 button:hover{transform:scale(1.1)}
 
-#slideshow{
-width:260px;
-height:260px;
-margin:20px auto;
-border-radius:25px;
-background-size:cover;
-background-position:center;
-box-shadow:0 0 25px rgba(255,215,0,0.8);
-}
-
-/* العدّاد */
+/* العداد */
 .counter-boxes{
 display:flex;
 gap:12px;
@@ -114,21 +119,19 @@ font-weight:bold;
 box-shadow:0 0 15px rgba(255,215,0,.7);
 animation:glow 2s infinite alternate;
 }
-
 @keyframes glow{
 from{box-shadow:0 0 10px rgba(255,215,0,.5)}
 to{box-shadow:0 0 25px rgba(255,215,0,1)}
 }
-
 .box span{font-size:22px}
 .box small{font-size:13px}
 
+/* التوقيع */
 .signature{
 margin-top:12px;
 font-size:16px;
 opacity:.9;
 }
-
 .signature small{
 display:block;
 font-size:14px;
@@ -140,9 +143,8 @@ margin-top:4px;
 .heart{
 position:absolute;
 animation:float 6s linear infinite;
-font-size:25px;
+font-size:24px;
 }
-
 @keyframes float{
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
@@ -172,11 +174,12 @@ animation:pulse 1.5s infinite;
 <!-- الصفحة الثانية -->
 <div id="page2" class="page hidden">
 <h1>هويده ❤️</h1>
+
 <div id="message"></div>
 
 <div id="slideshow"></div>
 
-<div id="loveCounter">
+<div>
 منذ 4 مارس 2024 ❤️
 <div class="counter-boxes">
 <div class="box"><span id="days">0</span><small>يوم</small></div>
@@ -202,28 +205,22 @@ animation:pulse 1.5s infinite;
 </div>
 
 <script>
-const p1=document.getElementById("page1");
-const p2=document.getElementById("page2");
-const p3=document.getElementById("page3");
+const p1=page1,p2=page2,p3=page3;
 
-let started=false;
-
+/* الانتقال */
 function goToSecond(){
-if(started)return;
-started=true;
 p1.classList.add("hidden");
 p2.classList.remove("hidden");
-document.getElementById("message").innerHTML="";
+message.innerHTML="";
 i=0;
-setTimeout(startTyping,500);
+setTimeout(startTyping,400);
 }
-
 function goToThird(){
 p2.classList.add("hidden");
 p3.classList.remove("hidden");
 }
 
-/* نص الرسالة الجديد */
+/* النص */
 const text=`هلا هويده…
 يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
 من أول ما عرفتك صار عندك أثر مختلف بحياتي،
@@ -231,44 +228,36 @@ const text=`هلا هويده…
 ما أريد أطوّل بالكلام…
 الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج
 مثل ما إلك مكان كبير بقلبي.`;
-
 let i=0;
 function startTyping(){
 if(i<text.length){
-document.getElementById("message").innerHTML+=text.charAt(i);
-i++;
+message.innerHTML+=text.charAt(i++);
 setTimeout(startTyping,65);
 }
 }
 
-/* صور */
-const images=[
-"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800",
-"https://images.unsplash.com/photo-1595433562696-19b4c9c7cdb4?w=800"
-];
-let imgIndex=0;
+/* صورك */
+const images=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let idx=0;
 setInterval(()=>{
-document.getElementById("slideshow").style.backgroundImage=
-`url(${images[imgIndex]})`;
-imgIndex=(imgIndex+1)%images.length;
+slideshow.style.backgroundImage=`url(${images[idx]})`;
+idx=(idx+1)%images.length;
 },3500);
 
-/* العدّاد */
-const loveStart=new Date(2024,2,4);
-function updateCounter(){
-let now=new Date();
-let diff=now-loveStart;
-days.innerText=Math.floor(diff/86400000);
-hours.innerText=Math.floor(diff%86400000/3600000);
-minutes.innerText=Math.floor(diff%3600000/60000);
-seconds.innerText=Math.floor(diff%60000/1000);
-}
-setInterval(updateCounter,1000);
+/* العداد */
+const start=new Date(2024,2,4);
+setInterval(()=>{
+let d=new Date()-start;
+days.innerText=Math.floor(d/86400000);
+hours.innerText=Math.floor(d%86400000/3600000);
+minutes.innerText=Math.floor(d%3600000/60000);
+seconds.innerText=Math.floor(d%60000/1000);
+},1000);
 
 /* قبول */
 function accepted(){
 p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
-for(let i=0;i<40;i++){
+for(let i=0;i<35;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
@@ -278,7 +267,7 @@ setTimeout(()=>h.remove(),6000);
 }
 }
 
-/* قلوب مستمرة */
+/* قلوب */
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
