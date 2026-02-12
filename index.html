@@ -6,6 +6,8 @@
 <title>هويده ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 *{box-sizing:border-box}
@@ -19,6 +21,24 @@ text-align:center;
 overflow:hidden;
 }
 
+/* خلفية متحركة */
+.earth-bg{
+position:fixed;
+inset:0;
+background:
+linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.9)),
+url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
+background-size:cover;
+background-position:center;
+animation:moveBg 40s linear infinite;
+z-index:-1;
+}
+@keyframes moveBg{
+0%{transform:scale(1) translateX(0)}
+50%{transform:scale(1.08) translateX(-20px)}
+100%{transform:scale(1) translateX(0)}
+}
+
 /* الصفحات */
 .page{
 position:absolute;
@@ -30,11 +50,7 @@ align-items:center;
 flex-direction:column;
 transition:1s;
 }
-
-.hidden{
-opacity:0;
-pointer-events:none;
-}
+.hidden{opacity:0;pointer-events:none}
 
 /* العناوين */
 h1{
@@ -45,12 +61,9 @@ background-size:200% auto;
 -webkit-text-fill-color:transparent;
 animation:shine 3s linear infinite;
 }
+@keyframes shine{to{background-position:200% center}}
 
-@keyframes shine{
-to{background-position:200% center}
-}
-
-/* صندوق النص */
+/* النص */
 #message{
 font-size:20px;
 line-height:2;
@@ -85,24 +98,29 @@ border-radius:20px;
 font-size:18px;
 }
 
-/* التوقيع */
-.signature{
-margin-top:10px;
-font-size:16px;
-opacity:.85;
-}
+/* توقيع */
+.signature{margin-top:10px;font-size:16px;opacity:.85}
 
-/* نبض */
-#page3 h1{
-animation:pulse 1.5s infinite;
+/* انستا */
+.insta-box{
+margin-top:20px;
+background:rgba(255,255,255,0.1);
+padding:15px 30px;
+border-radius:25px;
+display:flex;
+gap:15px;
+align-items:center;
+justify-content:center;
+flex-wrap:wrap;
 }
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.06)}
-100%{transform:scale(1)}
+.insta-box a{
+color:#ffd700;
+text-decoration:none;
+font-weight:bold;
 }
+.insta-box i{font-size:22px;color:#E1306C}
 
-/* القلوب */
+/* قلوب */
 .heart{
 position:absolute;
 animation:float 6s linear infinite;
@@ -116,6 +134,8 @@ font-size:24px;
 </head>
 
 <body>
+
+<div class="earth-bg"></div>
 
 <!-- الصفحة الأولى -->
 <div id="page1" class="page">
@@ -139,6 +159,14 @@ font-size:24px;
 </div>
 </div>
 
+<div style="margin-top:20px;">
+🎵 <a href="https://www.youtube.com/watch?v=5E4w8N8qQhA"
+target="_blank"
+style="color:#ffd700;text-decoration:none;font-weight:bold;">
+انتِ جنة – دعوة أمي
+</a>
+</div>
+
 <button onclick="goToThird()">تابعي 💌</button>
 </div>
 
@@ -152,7 +180,7 @@ font-size:24px;
 <script>
 const p1=page1,p2=page2,p3=page3;
 
-/* انتقال الصفحات */
+/* التنقل */
 function goToSecond(){
 p1.classList.add("hidden");
 p2.classList.remove("hidden");
@@ -165,7 +193,7 @@ p2.classList.add("hidden");
 p3.classList.remove("hidden");
 }
 
-/* نص الرسالة */
+/* الكتابة */
 const text=`هلا هويده…
 يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
 من أول ما عرفتك صار عندك أثر مختلف بحياتي،
@@ -183,28 +211,36 @@ setTimeout(startTyping,70);
 }
 
 /* العداد */
-const loveStart=new Date(2024,2,4,0,0,0);
+const loveStart=new Date(2024,2,4);
 function updateCounter(){
-let now=new Date();
-let diff=now-loveStart;
-let d=Math.floor(diff/86400000);
-let h=Math.floor(diff%86400000/3600000);
-let m=Math.floor(diff%3600000/60000);
-let s=Math.floor(diff%60000/1000);
-counter.innerHTML=`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
+let d=new Date()-loveStart;
+counter.innerHTML=
+`${Math.floor(d/86400000)} يوم
+${Math.floor(d%86400000/3600000)} ساعة
+${Math.floor(d%3600000/60000)} دقيقة
+${Math.floor(d%60000/1000)} ثانية`;
 }
-setInterval(updateCounter,1000);
-updateCounter();
+setInterval(updateCounter,1000);updateCounter();
 
 /* الموافقة */
 function accepted(){
-p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
+p3.innerHTML=`
+<h1>أسعد قرار بحياتي ❤️👑</h1>
+
+<div class="insta-box">
+<i class="fa-brands fa-instagram"></i>
+<a href="https://www.instagram.com/3ACZ" target="_blank">@3ACZ</a>
+<a href="https://www.instagram.com/direct/t/3ACZ" target="_blank">
+<i class="fa-solid fa-paper-plane"></i> DM
+</a>
+</div>
+`;
+
 for(let i=0;i<40;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize=(20+Math.random()*30)+"px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 }
