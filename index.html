@@ -50,14 +50,14 @@ animation:shine 3s linear infinite;
 to{background-position:200% center}
 }
 
-/* النص */
+/* صندوق النص */
 #message{
 font-size:20px;
 line-height:2;
 max-width:850px;
 padding:25px;
 margin-top:20px;
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.06);
 border-radius:20px;
 }
 
@@ -76,6 +76,22 @@ transition:.3s;
 }
 button:hover{transform:scale(1.1)}
 
+/* العداد */
+#counterBox{
+margin-top:25px;
+background:rgba(0,0,0,0.6);
+padding:20px;
+border-radius:20px;
+font-size:18px;
+}
+
+/* التوقيع */
+.signature{
+margin-top:10px;
+font-size:16px;
+opacity:.85;
+}
+
 /* نبض */
 #page3 h1{
 animation:pulse 1.5s infinite;
@@ -86,7 +102,7 @@ animation:pulse 1.5s infinite;
 100%{transform:scale(1)}
 }
 
-/* قلوب */
+/* القلوب */
 .heart{
 position:absolute;
 animation:float 6s linear infinite;
@@ -111,7 +127,18 @@ font-size:24px;
 <!-- الصفحة الثانية -->
 <div id="page2" class="page hidden">
 <h1>هويده ❤️</h1>
+
 <div id="message"></div>
+
+<div id="counterBox">
+منذ 4 مارس 2024 ❤️<br>
+<span id="counter"></span>
+<div class="signature">
+— أسامه سامي 🤍<br>
+انتظرج لآخر يوم بعمري
+</div>
+</div>
+
 <button onclick="goToThird()">تابعي 💌</button>
 </div>
 
@@ -155,18 +182,43 @@ setTimeout(startTyping,70);
 }
 }
 
+/* العداد */
+const loveStart=new Date(2024,2,4,0,0,0);
+function updateCounter(){
+let now=new Date();
+let diff=now-loveStart;
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff%86400000/3600000);
+let m=Math.floor(diff%3600000/60000);
+let s=Math.floor(diff%60000/1000);
+counter.innerHTML=`${d} يوم ${h} ساعة ${m} دقيقة ${s} ثانية`;
+}
+setInterval(updateCounter,1000);
+updateCounter();
+
 /* الموافقة */
 function accepted(){
 p3.innerHTML="<h1>أسعد قرار بحياتي ❤️👑</h1>";
-for(let i=0;i<30;i++){
+for(let i=0;i<40;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(20+Math.random()*30)+"px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 }
 }
+
+/* قلوب مستمرة */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},900);
 </script>
 
 </body>
