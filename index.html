@@ -16,16 +16,7 @@ font-family:'Cairo',sans-serif;
 overflow:hidden;
 color:white;
 text-align:center;
-background:
-linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-url("earth-night.jpg") center/cover no-repeat fixed;
-animation:bgZoom 30s ease-in-out infinite;
-}
-
-@keyframes bgZoom{
-0%{background-size:100%}
-50%{background-size:112%}
-100%{background-size:100%}
+background:black;
 }
 
 .page{
@@ -55,30 +46,25 @@ animation:shine 3s linear infinite;
 }
 @keyframes shine{to{background-position:200% center}}
 
+/* فيديو الأرض */
+#earthVideo{
+width:280px;
+height:280px;
+border-radius:50%;
+object-fit:cover;
+box-shadow:0 0 40px rgba(0,150,255,.6);
+margin:18px 0;
+}
+
 /* الرسالة */
 #message{
 font-size:20px;
 line-height:2;
-max-width:800px;
+max-width:820px;
 padding:22px;
 margin-bottom:15px;
-background:rgba(0,0,0,.45);
+background:rgba(0,0,0,.55);
 border-radius:22px;
-position:relative;
-z-index:5;
-}
-
-/* الصور */
-#slideshow{
-width:260px;
-height:260px;
-border-radius:25px;
-background-size:cover;
-background-position:center;
-box-shadow:0 0 25px rgba(255,215,0,.8);
-margin:15px 0;
-filter:brightness(.9);
-z-index:1;
 }
 
 /* الأزرار */
@@ -177,7 +163,9 @@ animation:pulse 1.5s infinite;
 
 <div id="message"></div>
 
-<div id="slideshow"></div>
+<video id="earthVideo" autoplay muted loop playsinline>
+<source src="earth-night.mp4" type="video/mp4">
+</video>
 
 <div>
 منذ 4 مارس 2024 ❤️
@@ -235,14 +223,6 @@ message.innerHTML+=text.charAt(i++);
 setTimeout(startTyping,65);
 }
 }
-
-/* صورك */
-const images=["photo1.jpg","photo2.jpg","photo3.jpg"];
-let idx=0;
-setInterval(()=>{
-slideshow.style.backgroundImage=`url(${images[idx]})`;
-idx=(idx+1)%images.length;
-},3500);
 
 /* العداد */
 const start=new Date(2024,2,4);
