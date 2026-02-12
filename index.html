@@ -8,23 +8,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
 overflow:hidden;
 color:white;
 text-align:center;
-background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)), url("https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800") center/cover no-repeat fixed;
+background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200") center/cover no-repeat fixed;
 animation:bgZoom 30s ease-in-out infinite;
 }
-
 @keyframes bgZoom{
 0%{background-size:100%}
 50%{background-size:112%}
 100%{background-size:100%}
 }
-
 .page{
 position:absolute;
 width:100%;
@@ -35,12 +33,10 @@ align-items:center;
 flex-direction:column;
 transition:1s;
 }
-
 .hidden{
 opacity:0;
 pointer-events:none;
 }
-
 h1{
 font-size:clamp(28px,5vw,42px);
 background:linear-gradient(90deg,#ffd700,#fff,#ffd700);
@@ -49,11 +45,9 @@ background-size:200% auto;
 -webkit-text-fill-color:transparent;
 animation:shine 3s linear infinite;
 }
-
 @keyframes shine{
 to{background-position:200% center}
 }
-
 #message{
 font-size:16px;
 line-height:1.8;
@@ -61,7 +55,6 @@ max-width:800px;
 min-height:160px;
 padding:20px;
 }
-
 button{
 margin-top:20px;
 padding:15px 35px;
@@ -75,7 +68,6 @@ font-weight:bold;
 transition:.3s;
 }
 button:hover{transform:scale(1.1)}
-
 #singleImage{
 width:300px;
 height:300px;
@@ -85,7 +77,6 @@ background-size:cover;
 background-position:center;
 box-shadow:0 0 25px rgba(255,215,0,0.8);
 }
-
 /* العدّاد */
 .counter-boxes{
 display:flex;
@@ -94,7 +85,6 @@ flex-wrap:wrap;
 justify-content:center;
 margin-top:15px;
 }
-
 .box{
 width:80px;
 height:80px;
@@ -109,40 +99,33 @@ font-weight:bold;
 box-shadow:0 0 15px rgba(255,215,0,.7);
 animation:glow 2s infinite alternate;
 }
-
 @keyframes glow{
 from{box-shadow:0 0 10px rgba(255,215,0,.5)}
 to{box-shadow:0 0 25px rgba(255,215,0,1)}
 }
-
 .box span{font-size:22px}
 .box small{font-size:13px}
-
 .signature{
 margin-top:12px;
 font-size:16px;
 opacity:.9;
 }
-
 .signature small{
 display:block;
 font-size:14px;
 opacity:.8;
 margin-top:4px;
 }
-
 /* قلوب */
 .heart{
 position:absolute;
 animation:float 6s linear infinite;
 font-size:25px;
 }
-
 @keyframes float{
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
 }
-
 /* نبض السؤال */
 #page3 h1{
 animation:pulse 1.5s infinite;
@@ -152,7 +135,6 @@ animation:pulse 1.5s infinite;
 50%{transform:scale(1.05)}
 100%{transform:scale(1)}
 }
-
 .insta-box{
 margin-top:15px;
 background:rgba(255,255,255,0.1);
@@ -184,9 +166,7 @@ font-weight:bold;
 <div id="page2" class="page hidden">
 <h1>هويده ❤️</h1>
 <div id="message"></div>
-
-<div id="singleImage" style="background-image:url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=800');"></div>
-
+<div id="singleImage" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200');"></div>
 <div id="loveCounter">
 منذ 4 مارس 2024 ❤️
 <div class="counter-boxes">
@@ -231,21 +211,25 @@ p2.classList.add("hidden");
 p3.classList.remove("hidden");
 }
 
-/* نص الرسالة */
+/* نص الرسالة الجديد + الرسالة العراقية */
 const text=`هلا هويده…
 يمكن ما تعرفيني زين بعد، بس حسيت لازم أقول لك شي من قلبي.
 من أول ما عرفتك صار عندك أثر مختلف بحياتي،
 ضحكتك، طريقتك، وحتى وجودك يخلي يومي أحلى.
 ما أريد أطوّل بالكلام…
 الحقيقة الواضحة، وأتمنى يكون إلي مكان بقلبج
-مثل ما إلك مكان كبير بقلبي.`;
+مثل ما إلك مكان كبير بقلبي.
+
+يگولون العيون هي مراية الروح، وآني شفت روحي بعيونچ.
+جمالچ بي هيبة ونازك بنفس الوقت، لدرجة أخاف أطوّل بالنظر إلچ وأنفضح.
+حبيت أگولچ إنچ أجمل إنسانة شافتها عيني، ومكاني بقلبي صار محجوز إلچ.`;
 
 let i=0;
 function startTyping(){
 if(i<text.length){
 document.getElementById("message").innerHTML+=text.charAt(i);
 i++;
-setTimeout(startTyping,65);
+setTimeout(startTyping,50);
 }
 }
 
@@ -257,7 +241,7 @@ let diff=now-loveStart;
 days.innerText=Math.floor(diff/86400000);
 hours.innerText=Math.floor(diff%86400000/3600000);
 minutes.innerText=Math.floor(diff%3600000/60000);
-seconds.innerText(Math.floor(diff%60000/1000));
+seconds.innerText=Math.floor(diff%60000/1000);
 }
 setInterval(updateCounter,1000);
 
