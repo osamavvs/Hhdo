@@ -1,27 +1,14 @@
-from pyrogram import Client, filters
-from config import Config
-
-# أيدي المطور أسامة
-SUDO_USER = 5406798224
-
-@Client.on_message(filters.group & filters.regex("^(رتبتي|رتبتي شنو)$"))
-async def get_rank(client, message):
+@Client.on_message(filters.group & filters.regex("^(رتبتي|كشف)$"))
+async def check_rank(client, message):
     user_id = message.from_user.id
-    chat_id = message.chat.id
-    
-    # التحقق من الرتبة
-    if user_id == SUDO_USER:
-        rank = "👑 مطور السورس (أسامة)"
-    elif user_id == 5406798224: # يمكنك إضافة مطورين مساعدين هنا
+    if user_id == Config.OWNER_ID:
+        rank = "👑 مطور السورس أسامة"
+    elif user_id in Config.SUDO_USERS:
         rank = "💎 مطور ثانوي"
     else:
-        # فحص رتبته في المجموعة
-        member = await client.get_chat_member(chat_id, user_id)
-        if member.status.value == "administrator":
-            rank = "🛠 أدمن المجموعة"
-        elif member.status.value == "owner":
-            rank = "👑 مالك المجموعة"
-        else:
-            rank = "👤 عضو طبيعي"
-
-    await message.reply_text(f"🙋‍♂️ **أهلاً بك عزيزي :** {message.from_user.mention}\n✨ **رتبتك هي :** {rank}")
+        member = await client.get_chat_member(message.chat.id, user_id)
+        if member.status.value == "owner": rank = "👑 مالك المجموعة"
+        elif member.status.value == "administrator": rank = "🛠 أدمن المجموعة"
+        else: rank = "👤 عضو طبيعي"
+    
+    await message.reply(f"🙋‍♂️ **عزيزي :** {message.from_user.mention}\n✨ **رتبتك هي :** {rank}")
