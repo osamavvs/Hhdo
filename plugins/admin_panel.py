@@ -1,34 +1,36 @@
 from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, Message
-from config import Config
 
-# 1. فلتر خاص للتحقق أنك "أسامة" المطور
-@Client.on_message(filters.private & filters.regex("^(لوحة التحكم|الاعدادات)$"))
-async def owner_only_panel(client, message: Message):
-    # إذا كان الشخص ليس أسامة (المطور) لا يستجيب البوت نهائياً
-    if message.from_user.id != Config.OWNER_ID:
+# الأيدي الخاص بك يا أسامة
+OWNER_ID = 5406798224
+
+@Client.on_message(filters.private & filters.regex("^(لوحة|لوحة التحكم|المطور)$"))
+async def owner_panel(client, message: Message):
+    # التحقق الصارم من الأيدي
+    if message.from_user.id != OWNER_ID:
+        # إذا حاول شخص آخر.. البوت يتجاهله تماماً
         return 
 
-    # أزرار التحكم الخاصة بك (تظهر لك فقط)
+    # أزرار الكيبورد الثابتة (تظهر لك أنت فقط)
     keyboard = ReplyKeyboardMarkup(
         [
-            ["📢 إذاعة عامة", "📊 الإحصائيات"],
+            ["⚙️ إعدادات البوت"],
+            ["📊 الإحصائيات", "📢 إذاعة عامة"],
             ["🚫 حظر مستخدم", "🔓 فك حظر"],
-            ["🔄 إعادة تشغيل البوت"],
-            ["❌ إغلاق اللوحة"]
+            ["🔄 إعادة تشغيل السورس"]
         ],
         resize_keyboard=True
     )
 
     await message.reply_text(
-        "👑 **أهلاً بك يا مطورنا أسامة.**\n"
-        "⚙️ **لوحة التحكم الحصرية مفعلة الآن بين يديك.**",
+        f"👑 **أهلاً بك يا مطورنا أسامة ( {message.from_user.id} )**\n"
+        "━━━━━━━━━━━━━━━━━━━━\n"
+        "🛠 **لوحة التحكم الكاملة مفعلة الآن تحت أمرك.**",
         reply_markup=keyboard
     )
 
-# 2. إخفاء اللوحة عند الضغط على إغلاق
-@Client.on_message(filters.private & filters.regex("^❌ إغلاق اللوحة$"))
-async def close_panel(client, message: Message):
-    if message.from_user.id == Config.OWNER_ID:
-        from pyrogram.types import ReplyKeyboardRemove
-        await message.reply_text("✅ تم إغلاق لوحة التحكم.", reply_markup=ReplyKeyboardRemove())
+# كود الإحصائيات السريع (مثال)
+@Client.on_message(filters.private & filters.regex("^📊 الإحصائيات$"))
+async def stats_msg(client, message: Message):
+    if message.from_user.id == OWNER_ID:
+        await message.reply_text("✨ **إحصائيات سورس كرستال :**\n\n👥 المجموعات: جاري الفحص..\n👤 المستخدمين: جاري الفحص..")
