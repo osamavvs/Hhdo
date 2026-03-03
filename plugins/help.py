@@ -1,59 +1,55 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# أمر فتح قائمة الأوامر (يدعم /help و كلمة الاوامر)
 @Client.on_message(filters.command("help") | filters.regex("^الاوامر$"))
 async def help_menu(client, message):
+    # الكليشة العلوية كما في الصورة
     text = (
-        f"💎 **أهـلاً بـك عـزيـزي فـي أوامـر الـسـورس**\n"
-        f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"👤 **الـمـطـور : أسـامـة @U_K44**\n"
-        f"⚙️ **قـنـاة الـسـورس : @BBABB9**\n"
-        f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"• اضـغـط عـلـى الأزرار لـتـظـهـر لـك الأوامـر ↓"
+        "** CRYSTAL • **\n\n"
+        "**الاوامر**\n"
+        "**• ⦙ اوامـر الـبوت الـرئيسيـة**\n"
+        "**━━━━━━━━━━━━━**\n"
+        "**• ⦙ اختـر ماتريـد عرضـه مـن القائمـه :**\n\n"
+        "**• ⦙ [قناة السورس والتحديثات](https://t.me/BBABB9)**\n"
+        "**━━━━━━━━━━━━━**"
     )
     
+    # توزيع الأزرار صفين صفين مثل الصورة بالضبط
     buttons = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("🛡 أوامر الحماية", callback_data="h_protect"),
-            InlineKeyboardButton("⚙️ أوامر المشرفين", callback_data="h_admin")
+            InlineKeyboardButton("م 2 اوامر الادمنيه", callback_data="h_admin"),
+            InlineKeyboardButton("م 1 اوامر الحماية", callback_data="h_protect")
         ],
         [
-            InlineKeyboardButton("🎮 أوامر التسلية", callback_data="h_fun"),
-            InlineKeyboardButton("💎 أوامر السورس", callback_data="h_source")
+            InlineKeyboardButton("م 4 اوامر المنشئين", callback_data="h_creator"),
+            InlineKeyboardButton("م 3 اوامر المدراء", callback_data="h_manager")
         ],
         [
-            InlineKeyboardButton("❌ إغلاق القائمة", callback_data="close_help")
+            InlineKeyboardButton("م 6 اوامر التحشيش", callback_data="h_fun"),
+            InlineKeyboardButton("م 5 اوامر المالكين", callback_data="h_owners")
+        ],
+        [
+            InlineKeyboardButton("م 8 اوامر البنك", callback_data="h_bank"),
+            InlineKeyboardButton("م 7 اوامر التسليه", callback_data="h_games")
+        ],
+        [
+            InlineKeyboardButton("م المطور", callback_data="h_source"),
+            InlineKeyboardButton("م 9 اوامر التنظيف", callback_data="h_clean")
+        ],
+        [
+            InlineKeyboardButton("الالعاب", callback_data="h_all_games")
+        ],
+        [
+            InlineKeyboardButton("التفعيل / التعطيل", callback_data="h_enable"),
+            InlineKeyboardButton("القفل / الفتح", callback_data="h_lock")
+        ],
+        [
+            InlineKeyboardButton("✨ MERO SOURCE ™", url="https://t.me/BBABB9")
         ]
     ])
     
-    await message.reply_text(text, reply_markup=buttons)
-
-# معالج الأزرار (تأكد من تغيير الـ callback_data لتجنب التعارض)
-@Client.on_callback_query(filters.regex("^h_"))
-async def help_callback(client, query: CallbackQuery):
-    data = query.data
-    
-    if data == "h_protect":
-        msg = "🛡 **أوامـر الـقـفـل والـفـتـح:**\n━━━━━━━━━━━━\n• قفل | فتح (الروابط)\n• قفل | فتح (التوجيه)\n• قفل | فتح (الميديا)\n• قفل | فتح (المعرفات)"
-    elif data == "h_admin":
-        msg = "⚙️ **أوامـر الإدارة:**\n━━━━━━━━━━━━\n• طرد (بالرد)\n• كتم (بالرد)\n• تقييد (بالرد)\n• الغاء الكتم (بالرد)"
-    elif data == "h_fun":
-        msg = "🎮 **أوامـر الـتـسـلـيـة:**\n━━━━━━━━━━━━\n• ايدي (معلوماتك)\n• سورس (معلومات البوت)\n• ذكاء (تحدث مع البوت)\n• الرتبة (رتبتك بالمجموعة)"
-    elif data == "h_source":
-        msg = "💎 **مـعـلـومـات الـسـورس:**\n━━━━━━━━━━━━\n• الـمـطور: أسـامـة @U_K44\n• الـقـناة: @BBABB9\n• الاصدار: 1.0v"
-
-    await query.edit_message_text(
-        msg,
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ رجوع", callback_data="h_back")]])
+    await message.reply_text(
+        text, 
+        reply_markup=buttons, 
+        disable_web_page_preview=True
     )
-
-@Client.on_callback_query(filters.regex("h_back"))
-async def back_callback(client, query: CallbackQuery):
-    # نستخدم نفس النص والأزرار الأساسية للرجوع
-    await help_menu(client, query.message)
-    await query.message.delete()
-
-@Client.on_callback_query(filters.regex("close_help"))
-async def close_callback(client, query: CallbackQuery):
-    await query.message.delete()
