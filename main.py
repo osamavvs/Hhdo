@@ -1,32 +1,24 @@
 from pyrogram import Client, filters
+import random
 
-# --- بياناتك الشخصية ---
-API_ID = 24752047
-API_HASH = "5b8a468627791bdd36a8c361913b0b72"
-BOT_TOKEN = "8721155986:AAHdipR_Xg6YUebhq_FWU3_oeHjyNdePT_c"
+# اترك هذه القيم كما هي، سنملأها من السيرفر تلقائياً
+API_ID = 0
+API_HASH = ""
+BOT_TOKEN = ""
 
-app = Client(
-    "OsamaBot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN
-)
-
-# --- الأوامر ---
+app = Client("OsamaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("start", ""))
 async def start(client, message):
-    await message.reply_text("💎 **أهلاً بك في سورس أسامة المطور!**\nالسورس جاهز للعمل الآن.")
+    await message.reply_text("💎 أهلاً بك في سورس أسامة المحدث من GitHub!")
 
 @app.on_message(filters.regex("^بوت$"))
 async def bot_status(client, message):
-    await message.reply_text("✅ البوت متصل وشغال عال العال.")
+    await message.reply_text("✅ البوت متصل وشغال بآخر تحديث من GitHub.")
 
-@app.on_message(filters.regex("^ايدي$"))
-async def get_id(client, message):
-    await message.reply_text(f"✨ آيديك هو: `{message.from_user.id}`")
+@app.on_message(filters.regex("^حظ$"))
+async def luck(client, message):
+    await message.reply_text(random.choice(["حظك عسل 🍯", "حظك نار 🔥", "حظك وسط ⚖️"]))
 
-# تشغيل البوت
-if __name__ == "__main__":
-    print("🚀 البوت بدأ العمل...")
-    app.run()
+# أضف أي أوامر تريدها هنا في GitHub مستقبلاً
+app.run()
