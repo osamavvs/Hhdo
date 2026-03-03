@@ -5,9 +5,15 @@ db = sqlite3.connect("crystal.db", check_same_thread=False)
 cr = db.cursor()
 
 def start_db():
-    cr.execute("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY, msgs INTEGER DEFAULT 0, rank TEXT DEFAULT 'member')")
-    cr.execute("CREATE TABLE IF NOT EXISTS groups (chat_id INTEGER PRIMARY KEY, status TEXT DEFAULT 'on')")
+    # جدول المستخدمين والرسائل
+    cr.execute("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY, msgs INTEGER DEFAULT 0)")
+    # جدول المطورين (سودو)
+    cr.execute("CREATE TABLE IF NOT EXISTS sudos (user_id INTEGER PRIMARY KEY)")
     db.commit()
 
 start_db()
+
+def is_sudo(user_id):
+    cr.execute("SELECT user_id FROM sudos WHERE user_id = ?", (user_id,))
+    return cr.fetchone() is not None
 EOF
