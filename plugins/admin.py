@@ -1,25 +1,45 @@
-from telebot.types import ChatPermissions
+from pyrogram import Client, filters
+from pyrogram.types import Message
+import time
 
-def تسجيل(bot):
+# --- أوامر المطور (استبدل 123456789 بآيديك) ---
+OWNER_ID = 8074717568
 
-    @bot.message_handler(commands=['كتم'])
-    def كتم(message):
-        if message.reply_to_message:
-            user_id = message.reply_to_message.from_user.id
-            bot.restrict_chat_member(
-                message.chat.id,
-                user_id,
-                ChatPermissions(can_send_messages=False)
-            )
-            bot.reply_to(message, "تم كتم العضو 🔇")
+@Client.on_message(filters.command("الاوامر") & filters.private)
+async def commands_list(client, message):
+    text = (
+        "** تـم فـتـح قـائـمـة الأوامـر 💎**\n"
+        "**━━━━━━━━━━━━━━━━━**\n"
+        "**• 「 أوامـر الـحـمـايـة 」**\n"
+        "**—** `قفل` + (الصور، الروابط، التوجيه)\n"
+        "**—** `فتح` + (الصور، الروابط، التوجيه)\n\n"
+        "**• 「 أوامـر الإدارة 」**\n"
+        "**—** `طرد` (بالرد)\n"
+        "**—** `كتم` (بالرد)\n"
+        "**—** `تثبيت` (بالرد)\n\n"
+        "**• 「 أوامـر الـمـعـلـومـات 」**\n"
+        "**—** `ايدي` : كشف هويتك\n"
+        "**—** `كشف` : معلومات العضو (بالرد)\n"
+        "**━━━━━━━━━━━━━━━━━**\n"
+        "**[SOUCRE CRYSTAL](https://t.me/your_channel)**"
+    )
+    await message.reply_text(text, disable_web_page_preview=True)
 
-    @bot.message_handler(commands=['الغاء_كتم'])
-    def الغاء_كتم(message):
-        if message.reply_to_message:
-            user_id = message.reply_to_message.from_user.id
-            bot.restrict_chat_member(
-                message.chat.id,
-                user_id,
-                ChatPermissions(can_send_messages=True)
-            )
-            bot.reply_to(message, "تم الغاء الكتم ✅")
+@Client.on_message(filters.command("ايدي") & filters.group)
+async def id_command(client, message):
+    user = message.from_user
+    chat = message.chat
+    await message.reply_text(
+        f"** تـم كـشـف هـويـتـك بـنـجـاح 🕵️‍♂️**\n"
+        f"**━━━━━━━━━━━━━━━━━**\n"
+        f"**• اسـمـك :** {user.mention}\n"
+        f"**• آيـديـك :** `{user.id}`\n"
+        f"**• رتـبـتـك :** {'الـمـطـور 👑' if user.id == OWNER_ID else 'عـضـو 👤'}\n"
+        f"**• آيـدي الـكـروب :** `{chat.id}`\n"
+        f"**━━━━━━━━━━━━━━━━━**"
+    )
+
+@Client.on_message(filters.command("كتم") & filters.user(OWNER_ID) & filters.reply)
+async def mute_user(client, message):
+    await message.chat.restrict_member(message.reply_to_message.from_user.id, permissions=None)
+    await message.reply_text(f"**✅ تـم كـتـم الـعـضـو :** {message.reply_to_message.from_user.mention}\n**بـأمر الـعـمـدة! 🤫**")
