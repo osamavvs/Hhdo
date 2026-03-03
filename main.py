@@ -1,18 +1,26 @@
-from pyrogram import Client, filters
+from pyrogram import Client
 
-# سيتم ملؤها بواسطة السيرفر
-API_ID = 0
-API_HASH = ""
-BOT_TOKEN = ""
+# البيانات سيتم ملؤها تلقائياً بواسطة السيرفر
+API_ID = 24752047
+API_HASH = "5b8a468627791bdd36a8c361913b0b72"
+BOT_TOKEN = "8721155986:AAHdipR_Xg6YUebhq_FWU3_oeHjyNdePT_c"
 
-app = Client("OsamaBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+class Bot(Client):
+    def __init__(self):
+        super().__init__(
+            "OsamaBot",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            bot_token=BOT_TOKEN,
+            plugins=dict(root="plugins") # هذا يخلي البوت يقرأ كل شي داخل مجلد plugins
+        )
 
-@app.on_message(filters.command("start") & filters.private)
-async def start(client, message):
-    await message.reply_text(f"هلا بك يا {message.from_user.first_name} في بوت أسامة!")
+    async def start(self):
+        await super().start()
+        print("🚀 البوت اشتغل وبدأ يقرأ ملفات الأزرار من plugins...")
 
-@app.on_message(filters.regex("^بوت$"))
-async def bot_status(client, message):
-    await message.reply_text("💎 لبيك يا عمدة، أنا متصل.")
+    async def stop(self, *args):
+        await super().stop()
 
-app.run()
+if __name__ == "__main__":
+    Bot().run()
