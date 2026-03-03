@@ -1,30 +1,27 @@
 cat <<EOF > ~/Hhdo/plugins/sudo.py
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from config import Config
-import sqlite3
-import json
 import os
+import sys
+import sqlite3
 
-# الاتصال بالقاعدة وتجهيز جداول الردود
-db = sqlite3.connect("crystal.db", check_same_thread=False)
-cr = db.cursor()
-cr.execute("CREATE TABLE IF NOT EXISTS replys (word TEXT PRIMARY KEY, reply_id TEXT, type TEXT)")
-db.commit()
+def get_db():
+    db = sqlite3.connect("crystal.db", check_same_thread=False)
+    return db, db.cursor()
 
-# --- [ نظام الردود الذكي ] ---
-
-@Client.on_message(filters.regex("^اضف رد$") & filters.user(Config.OWNER_ID))
-async def add_reply_step(client, message):
-    await message.reply("⚙️ **ارسل الآن الكلمة التي تريد إضافتها..**", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("إلغاء ❌", callback_data="cancel")]]))
-    # هنا نجعل البوت ينتظر الكلمة (سأبسطها لك لتكون مباشرة)
+@Client.on_message(filters.regex("^(تحديث|ت)$") & filters.user(Config.OWNER_ID))
+async def restart_bot(client, message):
+    await message.reply("🚀 **جاري التحديث وإعادة التشغيل الفوري...**")
+    # هذه الطريقة تستبدل النسخة القديمة بالجديدة برمجياً بدون توقف
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 @Client.on_message(filters.regex("^اضف رد (.*)$") & filters.user(Config.OWNER_ID))
 async def save_reply(client, message):
-    word = message.matches[0].group(1)
+    word = message.matches[0].group(1).strip()
     if not message.reply_to_message:
-        return await message.reply(f"⚠️ **يجب الرد على (نص، صورة، صوت، ملصق) لحفظه كـ رد لـ [{word}]**")
+        return await message.reply("⚠️ **رد على (نص، صورة، ملصق) لإضافته.**")
     
+    db, cr = get_db()
     rep = message.reply_to_message
     r_type = "text"
     file_id = rep.text
@@ -37,35 +34,13 @@ async def save_reply(client, message):
 
     cr.execute("INSERT OR REPLACE INTO replys VALUES (?, ?, ?)", (word, file_id, r_type))
     db.commit()
-    await message.reply(f"✅ **تم حفظ الرد بنجاح!**\nالكلمة: {word}\nالنوع: {r_type}")
+    await message.reply(f"✅ **تم حفظ الرد للكلمة: {word}**")
 
-@Client.on_message(filters.regex("^مسح رد (.*)$") & filters.user(Config.OWNER_ID))
-async def del_reply(client, message):
-    word = message.matches[0].group(1)
-    cr.execute("DELETE FROM replys WHERE word = ?", (word,))
-    db.commit()
-    await message.reply(f"🗑 **تم حذف الرد [{word}] من القاعدة.**")
-
-# --- [ نظام الإذاعة الشامل ] ---
-
-@Client.on_message(filters.regex("^اذاعة$") & filters.user(Config.OWNER_ID) & filters.reply)
-async def broadcast(client, message):
-    msg = await message.reply("⏳ **جاري الإذاعة للمجموعات...**")
-    cr.execute("SELECT user_id FROM users") # افتراضياً نذيع للمستخدمين
-    users = cr.fetchall()
-    done = 0
-    for user in users:
-        try:
-            await message.reply_to_message.copy(user[0])
-            done += 1
-        except: continue
-    await msg.edit(f"✅ **تمت الإذاعة لـ {done} مستخدم.**")
-
-# --- [ تشغيل الردود تلقائياً ] ---
-
-@Client.on_message(filters.text & filters.group, group=2)
+@Client.on_message(filters.text & ~filters.private, group=1)
 async def auto_reply(client, message):
-    cr.execute("SELECT reply_id, type FROM replys WHERE word = ?", (message.text,))
+    db, cr = get_db()
+    word = message.text.strip()
+    cr.execute("SELECT reply_id, type FROM replys WHERE word = ?", (word,))
     res = cr.fetchone()
     if res:
         f_id, r_type = res[0], res[1]
@@ -75,11 +50,4 @@ async def auto_reply(client, message):
         elif r_type == "voice": await message.reply_voice(f_id)
         elif r_type == "video": await message.reply_video(f_id)
         elif r_type == "animation": await message.reply_animation(f_id)
-
-# --- [ تحديث و رست ] ---
-
-@Client.on_message(filters.regex("^(تحديث|رست)$") & filters.user(Config.OWNER_ID))
-async def restart_vps(client, message):
-    await message.reply("⚙️ **جاري تحديث ملفات السورس وإعادة التشغيل...**")
-    os.execl(os.sys.executable, os.sys.executable, *os.sys.argv)
 EOF
