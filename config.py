@@ -1,6 +1,6 @@
 class Config:
-    API_ID = 24752047
-    API_HASH = "5b8a468627791bdd36a8c361913b0b72"
-    BOT_TOKEN = "8721155986:AAHdipR_Xg6YUebhq_FWU3_oeHjyNdePT_c"
-    OWNER_ID = 8074717568
-    CH_USER = "BBABB9" # يوزر القناة بدون @
+    OWNER_ID = 5406798224  # ايديك يا أسامة
+    OWNER_USERNAME = "U_K44"  # يوزرك
+    BOT_NAME = "بوت كرستال"
+    CH_USER = "BBABB9"  # قناة السورس
+    SUDO_USERS = [5406798224] # قائمة المطورين
