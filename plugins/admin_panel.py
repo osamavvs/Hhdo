@@ -1,18 +1,34 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import ReplyKeyboardMarkup, Message
 from config import Config
 
-@Client.on_message(filters.regex("^(لوحة التحكم|التحكم)$") & filters.user(Config.OWNER_ID))
-async def sultan_panel(client, message):
-    await message.reply_text(
-        "🛠 **لوحة تحكم المطور (سورس كرستال)**\n"
-        "——————————————————\n"
-        "تحكم في جميع وظائف البوت من هنا:",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("📢 إذاعة عامة", callback_data="broadcast"), InlineKeyboardButton("🔄 إعادة تشغيل", callback_data="restart")],
-            [InlineKeyboardButton("👥 قائمة المجموعات", callback_data="groups_list"), InlineKeyboardButton("👤 قائمة المستخدمين", callback_data="users_list")],
-            [InlineKeyboardButton("🚫 حظر مستخدم", callback_data="ban_user"), InlineKeyboardButton("✅ إلغاء حظر", callback_data="unban_user")],
-            [InlineKeyboardButton("⚙️ إعدادات الحماية", callback_data="guard_settings")],
-            [InlineKeyboardButton("❌ إغلاق اللوحة", callback_data="close")]
-        ])
+# 1. فلتر خاص للتحقق أنك "أسامة" المطور
+@Client.on_message(filters.private & filters.regex("^(لوحة التحكم|الاعدادات)$"))
+async def owner_only_panel(client, message: Message):
+    # إذا كان الشخص ليس أسامة (المطور) لا يستجيب البوت نهائياً
+    if message.from_user.id != Config.OWNER_ID:
+        return 
+
+    # أزرار التحكم الخاصة بك (تظهر لك فقط)
+    keyboard = ReplyKeyboardMarkup(
+        [
+            ["📢 إذاعة عامة", "📊 الإحصائيات"],
+            ["🚫 حظر مستخدم", "🔓 فك حظر"],
+            ["🔄 إعادة تشغيل البوت"],
+            ["❌ إغلاق اللوحة"]
+        ],
+        resize_keyboard=True
     )
+
+    await message.reply_text(
+        "👑 **أهلاً بك يا مطورنا أسامة.**\n"
+        "⚙️ **لوحة التحكم الحصرية مفعلة الآن بين يديك.**",
+        reply_markup=keyboard
+    )
+
+# 2. إخفاء اللوحة عند الضغط على إغلاق
+@Client.on_message(filters.private & filters.regex("^❌ إغلاق اللوحة$"))
+async def close_panel(client, message: Message):
+    if message.from_user.id == Config.OWNER_ID:
+        from pyrogram.types import ReplyKeyboardRemove
+        await message.reply_text("✅ تم إغلاق لوحة التحكم.", reply_markup=ReplyKeyboardRemove())
