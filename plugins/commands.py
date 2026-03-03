@@ -1,92 +1,74 @@
-cat <<EOF > ~/Hhdo/plugins/commands.py
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from config import Config
 
-# --- الرسالة الرئيسية ---
+# --- واجهة الأوامر الرئيسية (ستايل العمدة) ---
 @Client.on_message(filters.command("start") | filters.regex("^الاوامر$"))
-async def start_menu(client, message):
+async def omda_menu(client, message):
     text = (
         f"‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ\n"
-        f"🙋‍♂️ **مرحباً بك عزيزي {message.from_user.mention}**\n\n"
-        f"💎 **أنا بوت ( كريستال ) المتطور لإدارة المجموعات**\n"
-        f"🛡 **اختر ما تريد التحكم به من الأزرار أدناه**\n"
+        f"🙋‍♂️ **أهلاً بك عزيزي في أوامر بوت كريستال**\n"
+        f"👤 **المطور الأساسي : [أسامة](t.me/U_K44)**\n"
         f"━━━━━━━━━━━━━━\n"
-        f"👤 **المطور: [أسامة](t.me/U_K44)**\n"
-        f"‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ"
+        f"⚙️ **قائمة التحكم الرئيسية للبوت أدناه :**\n"
+        f"━━━━━━━━━━━━━━"
     )
     
+    # توزيع الأزرار بنفس نمط سورس العمدة
     keyboard = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("🔐 أوامر القفل", callback_data="help_locks"),
-            InlineKeyboardButton("👮‍♂️ أوامر الإدارة", callback_data="help_admin")
+            InlineKeyboardButton("🛠 أوامر الحماية", callback_data="h_prot"),
+            InlineKeyboardButton("👮‍♂️ أوامر الأدمنية", callback_data="h_admin")
         ],
         [
-            InlineKeyboardButton("📋 أوامر المدير", callback_data="help_manager"),
-            InlineKeyboardButton("🎭 أوامر التسلية", callback_data="help_fun")
+            InlineKeyboardButton("📋 أوامر المدير", callback_data="h_mgr"),
+            InlineKeyboardButton("💎 أوامر المنشئ", callback_data="h_creator")
         ],
         [
-            InlineKeyboardButton("💎 أوامر المطور", callback_data="help_sudo")
+            InlineKeyboardButton("👑 أوامر المالك", callback_data="h_owner"),
+            InlineKeyboardButton("🔥 أوامر المطور", callback_data="h_sudo")
         ],
         [
-            InlineKeyboardButton("➕ أضف البوت لمجموعتك ➕", url=f"https://t.me/{(await client.get_me()).username}?startgroup=true")
+            InlineKeyboardButton("💰 أوامر البنك", callback_data="h_bank"),
+            InlineKeyboardButton("🎭 أوامر التسلية", callback_data="h_fun")
+        ],
+        [
+            InlineKeyboardButton("🧹 أوامر التنظيف", callback_data="h_clean"),
+            InlineKeyboardButton("🎮 ألعاب كريستال", callback_data="h_games")
+        ],
+        [
+            InlineKeyboardButton("🔐 قفل / فتح", callback_data="h_locks"),
+            InlineKeyboardButton("🔔 تفعيل / تعطيل", callback_data="h_toggle")
+        ],
+        [
+            InlineKeyboardButton("💎 قناة السورس 💎", url="https://t.me/Crystal_Source")
         ]
     ])
     
-    await message.reply_text(text, reply_markup=keyboard)
+    await message.reply_text(text, reply_markup=keyboard, disable_web_page_preview=True)
 
-# --- معالج الضغط على الأزرار (Callbacks) ---
+# --- معالج الأزرار (Callbacks) ---
 @Client.on_callback_query()
 async def on_click(client, callback: CallbackQuery):
     data = callback.data
     
-    if data == "help_locks":
+    if data == "h_prot":
         await callback.edit_message_text(
-            "🔐 **قائمة أوامر القفل والفتح:**\n\n"
+            "🛠 **أوامر الحماية والتحكم:**\n━━━━━━━━━━━━━━\n"
             "● قفل/فتح الروابط\n"
-            "● قفل/فتح الصور\n"
-            "● قفل/فتح الفيديو\n"
             "● قفل/فتح التوجيه\n"
-            "● قفل/فتح الملفات\n\n"
-            "‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("العودة 🔙", callback_data="back_main")]])
+            "● قفل/فتح المعرفات\n"
+            "● قفل/فتح التكرار\n━━━━━━━━━━━━━━",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("رجوع 🔙", callback_data="main_omda")]])
         )
-
-    elif data == "help_admin":
+    
+    elif data == "main_omda":
+        # العودة للقائمة الرئيسية
         await callback.edit_message_text(
-            "👮‍♂️ **قائمة أوامر الأدمنية:**\n\n"
-            "● طرد (بالرد)\n"
-            "● كتم (بالرد)\n"
-            "● حظر (بالرد)\n"
-            "● رفع/تنزيل أدمن\n\n"
-            "‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("العودة 🔙", callback_data="back_main")]])
-        )
-
-    elif data == "help_sudo":
-        if callback.from_user.id != Config.OWNER_ID:
-            return await callback.answer("❌ هذا القسم خاص بالمطور أسامة فقط!", show_alert=True)
-        
-        await callback.edit_message_text(
-            "💎 **أوامر مطور السورس (أسامة):**\n\n"
-            "● تحديث (لتحديث ملفات البوت)\n"
-            "● اذاعة (لإرسال رسالة لكل المجموعات)\n"
-            "● جلب نسخة (لجلب قاعدة البيانات)\n\n"
-            "‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("العودة 🔙", callback_data="back_main")]])
-        )
-
-    elif data == "back_main":
-        # إعادة القائمة الرئيسية
-        await callback.edit_message_text(
-            f"‏  ‌‌‏ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ—ـ\n"
-            f"🙋‍♂️ **مرحباً بك عزيزي {callback.from_user.mention}**\n\n"
-            f"💎 **قائمة أوامر سورس كريستال:**\n"
-            f"━━━━━━━━━━━━━━",
+            f"🙋‍♂️ **أهلاً بك في أوامر سورس كريستال**\n━━━━━━━━━━━━━━",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔐 أوامر القفل", callback_data="help_locks"), InlineKeyboardButton("👮‍♂️ أوامر الإدارة", callback_data="help_admin")],
-                [InlineKeyboardButton("📋 أوامر المدير", callback_data="help_manager"), InlineKeyboardButton("🎭 أوامر التسلية", callback_data="help_fun")],
-                [InlineKeyboardButton("💎 أوامر المطور", callback_data="help_sudo")]
+                [InlineKeyboardButton("🛠 أوامر الحماية", callback_data="h_prot"), InlineKeyboardButton("👮‍♂️ أوامر الأدمنية", callback_data="h_admin")],
+                [InlineKeyboardButton("💎 أوامر المطور", callback_data="h_sudo")],
+                [InlineKeyboardButton("🔙 العودة للقائمة", callback_data="main_omda")]
             ])
         )
-EOF
